@@ -27,15 +27,19 @@ const displayUserInfo = function (userInfo){
     const div = document.createElement("div");
     div.classList.add("user-info");
     //Inside the 5 placeholders, use the JSON data to grab the relevant properties to display on the page. in console.log u need to just make sure the info has captured and use those properties.
-    div.innerHTML=`<div>
-    <p><strong>Name:</strong> ${userInfo.name}</p>
-    <p><strong>Bio:</strong> ${userInfo.bio}</p>
-    <p><strong>Location:</strong> ${userInfo.location}</p>
-    <p><strong>Number of public repos:</strong> ${userInfo.public_repos}</p>
-  </div> `;
+    div.innerHTML=`
+    <figure>
+        <img alt="user avatar" src=${userInfo.avatar_url} />
+    </figure>
+    <div>
+        <p><strong>Name:</strong> ${userInfo.name}</p>
+        <p><strong>Bio:</strong> ${userInfo.bio}</p>
+        <p><strong>Location:</strong> ${userInfo.location}</p>
+        <p><strong>Number of public repos:</strong> ${userInfo.public_repos}</p>
+    </div>`;
   //Append the div to the overview element.
   overview.append(div);
-  
+  fetchRepos();
 };
 
 //async function to fetch repos
@@ -44,7 +48,9 @@ const fetchRepos = async function () {
     const gitRepos = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`);
     //Your second await statement should return the JSON response
     const repoInfo = await gitRepos.json();
-    //onsole.log(repoInfo);
+    //console.log(repoInfo);
+    //calling the function to display repo info and passing the argument of the gitrepos json variable to get the repo data
+    repoDetails(repoInfo);
 };
 //fetchRepos();
 
@@ -58,6 +64,6 @@ const repoDetails = function (repos) {
       //An <h3> element with the repo name. 
       listItems.innerHTML = `<h3>${repo.name}</h3>`;
       //Append the list item to the global variable that selects the unordered repos list
-      listItems.append(repoList);
+      repoList.append(listItems);
   }  
 };
