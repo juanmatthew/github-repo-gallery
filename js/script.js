@@ -38,6 +38,7 @@ const displayUserInfo = function (userInfo){
   
 };
 
+//async function to fetch repos
 const fetchRepos = async function () {
     //"repos" is the endpoint, sort=updated to sort most recently recent to last updated then per_page=100 to show 100 repos per page at a time as a parameter
     const gitRepos = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`);
@@ -46,3 +47,17 @@ const fetchRepos = async function () {
     //onsole.log(repoInfo);
 };
 //fetchRepos();
+
+//creating a function to display Info About Your Repos
+const repoDetails = function (repos) {
+    //Inside the function, loop and create a list item for each repo and give each item
+  for (const repo of repos) {
+      const listItems = document.createElement("li");
+      //A class of “repo”.
+      listItems.classList.add("repo");
+      //An <h3> element with the repo name. 
+      listItems.innerHTML = `<h3>${repo.name}</h3>`;
+      //Append the list item to the global variable that selects the unordered repos list
+      listItems.append(repoList);
+  }  
+};
