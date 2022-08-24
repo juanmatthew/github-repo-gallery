@@ -2,6 +2,8 @@
 const overview = document.querySelector(".overview");
 //GitHub username
 const username = "juanmatthew";
+//select the unordered list to display the repos list
+const repoList = document.querySelector(".repo-list");
 
 //async function to fetch your GitHub user data
 const gitUsers = async function () {
@@ -33,4 +35,14 @@ const displayUserInfo = function (userInfo){
   </div> `;
   //Append the div to the overview element.
   overview.append(div);
+  
 };
+
+const fetchRepos = async function () {
+    //"repos" is the endpoint, sort=updated to sort most recently recent to last updated then per_page=100 to show 100 repos per page at a time as a parameter
+    const gitRepos = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`);
+    //Your second await statement should return the JSON response
+    const repoInfo = await gitRepos.json();
+    //onsole.log(repoInfo);
+};
+//fetchRepos();
