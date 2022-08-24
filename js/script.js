@@ -11,6 +11,8 @@ const gitUsers = async function () {
   const userInfo = await userData.json();
   //Log out the response to the console 
   console.log(userInfo);
+  //call the function displaying the user information, and pass it the JSON data as an argument
+  displayUserInfo(userInfo);
 };
 //call your function to see your results
 gitUsers();
