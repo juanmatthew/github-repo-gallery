@@ -9,6 +9,10 @@ const displayRepoInfo = document.querySelector(".repos");
 //selects 
 const repoData = document.querySelector(".repo-data");
 
+//create a global variable for back to repo button and the search by name placeholder
+const backToReposButton = document.querySelector(".view-repos");
+const filterInput = document.querySelector(".filter-repos");
+
 //async function to fetch your GitHub user data
 const gitUsers = async function () {
     //Target the “users” endpoint and use a template literal to add the global username variable to the endpoint: users/${username}. Notice that you’ll add a “$” character in front of the variable name to create a placeholder. Because you’re using a template literal, surround the URL in backticks instead of quotation marks.
@@ -60,6 +64,8 @@ const fetchRepos = async function () {
 
 //creating a function to display Info About Your Repos
 const repoDetails = function (repos) {
+    //the search by name box should be showing
+    filterInput.classList.remove("hide")
     //Inside the function, loop and create a list item for each repo and give each item
   for (const repo of repos) {
       const listItems = document.createElement("li");
@@ -108,23 +114,55 @@ const specificRepoInfo = async function (repoName) {
     displaySpecificRepoInfo(repoInfo, languages);
 };
 
+//responsible for displaying the individual repo information
 const displaySpecificRepoInfo = function (repoInfo, languages) {
+    //Now the user will see the Back to Repo Gallery button when they click on a repo name. When they click on the back button, they’ll return to the complete list of repos. The individual repo information and the back button will then disappear.
+    backToReposButton.classList.remove("hide");
     repoData.innerHTML = "";
     repoData.classList.remove("hide");
     displayRepoInfo.classList.add("hide");
-    //Create a new div element and add the selected repository’s name, description, default branch, and link to its code on GitHub.The div structure will look like this:
     const div = document.createElement("div");
-    //Inside the 5 placeholders, use the JSON data to grab the relevant properties to display on the page. Use the properties from the object you retrieved when you fetched the specific repos. Hint: You want the URL to the repo on GitHub, not the repo’s API address.
     div.innerHTML= `<h3>Name: ${repoInfo.name}</h3>
     <p>Description: ${repoInfo.description}</p>
     <p>Default Branch: ${repoInfo.default_branch}</p>
     <p>Languages: ${languages.join(", ")}</p>
     <a class="visit" href="${repoInfo.html_url}" target="_blank" rel="noreferrer noopener">View Repo on GitHub!</a>`;
 
-    //Append the new div element to the section with a class of “repo-data”.
     repoData.append(div);
 };
+//add a click event to the back to repo button
+backToReposButton.addEventListener("click", function () {
+    //unhide (display) the section with the class of “repos”, the location where all the repo information appears
+    displayRepoInfo.classList.remove("hide");
+    //Add the “hide” class to the section where the individual repo data will appear
+    repoData.classList.add("hide");
+    //Also, add the “hide” class to the Back to Repo Gallery button itself
+    backToReposButton.classList.add("hide");
+});
 
+filterInput.addEventListener("input", function (e) {
+    //create a variable to capture the value of the search text
+    const searchText = e.target.value;
+    //Log out the variable and enter some text in the input to ensure that you’ve successfully captured it.
+    //console.log(searchText);
+    //Create a variable called repos to select ALL elements on the page with a class of “repo”.
+    const repos = document.querySelectorAll(".repos");
+    //Create a variable and assign it to the lowercase value of the search text
+    const searchStyle = searchText.toLowerCase();
+    //Loop through each repo inside your repos element
+    for(const repo of repos){
+        //Inside the loop, create a variable and assign it to the lowercase value of the innerText. of each repo.
+        const repoLowerCase = repo.innerText.toLowerCase();
+        //Check to see if the lowercase repo text includes the lowercase search text
+        if (repoLowerCase.inludes(searchStyle)){
+            //If the repo contains the text, show it.
+            repo.classList.remove("hide");
+        } else {
+            //If it doesn’t contain the text, hide the repo.
+            repo.classList.add("hide");
+        }
+    }
+});
 
 
 

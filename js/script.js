@@ -31,27 +31,25 @@ const displayUserInfo = function (userInfo){
     </div>`;
 
   overview.append(div);
-  fetchRepos();
+  fetchRepos(username);
 };
 //async function to fetch repos
 const fetchRepos = async function () {
     const gitRepos = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`);
     const fetchRepoInfo = await gitRepos.json();
-    repoDetails(fetchRepoInfo);
+    showRepos(fetchRepoInfo);
 };
 //fetchRepos();
 
 //creating a function to display your repos
-const repoDetails = function (repos) {
-    //the search by name box should be showing
+const showRepos = function (repos) {
     filterInput.classList.remove("hide")
-  for (const repo of repos) {
-      const listItems = document.createElement("li");
-      listItems.classList.add("repo");
-      listItems.innerHTML = `<h3>${repo.name}</h3>`;
-      repoList.append(listItems);
-  }  
-  
+    for (const repo of repos) {
+        const listItems = document.createElement("li");
+        listItems.classList.add("repo");
+        listItems.innerHTML = `<h3>${repo.name}</h3>`;
+        repoList.append(listItems);
+    }  
 };
 
 //create a click event listener for the ul class repo-list
@@ -59,16 +57,16 @@ repoList.addEventListener("click", function (e) {
     if (e.target.matches("h3")){
         const repoName = e.target.innerText;
         //console.log(repoName);
-        specificRepoInfo(repoName);
+        getSpecificRepoInfo(repoName);
     }
 });
 //create an async function to get the specifc repo information
-const specificRepoInfo = async function (repoName) {
+const getSpecificRepoInfo = async function (repoName) {
     const fetchInfo = await fetch(`https://api.github.com/repos/${username}/${repoName}`);
     const repoInfo = await fetchInfo.json();
-    console.log(repoInfo);
+    //console.log(repoInfo);
     
-    const fetchLanguages = await fetch(repoInfo.language_url);
+    const fetchLanguages = await fetch(repoInfo.languages_url);
     const languageData = await fetchLanguages.json();
   
     const languages = [];
@@ -81,7 +79,6 @@ const specificRepoInfo = async function (repoName) {
 };
 //responsible for displaying the individual repo information
 const displaySpecificRepoInfo = function (repoInfo, languages) {
-    //Now the user will see the Back to Repo Gallery button when they click on a repo name. When they click on the back button, they’ll return to the complete list of repos. The individual repo information and the back button will then disappear.
     backToReposButton.classList.remove("hide");
     repoData.innerHTML = "";
     repoData.classList.remove("hide");
@@ -97,12 +94,25 @@ const displaySpecificRepoInfo = function (repoInfo, languages) {
 };
 //add a click event to the back to repo button
 backToReposButton.addEventListener("click", function () {
-    //unhide (display) the section with the class of “repos”, the location where all the repo information appears
     displayRepoInfo.classList.remove("hide");
-    //Add the “hide” class to the section where the individual repo data will appear
     repoData.classList.add("hide");
-    //Also, add the “hide” class to the Back to Repo Gallery button itself
     backToReposButton.classList.add("hide");
+});
+
+filterInput.addEventListener("input", function (e) {
+    const searchText = e.target.value;
+    //console.log(searchText);
+    const repos = document.querySelectorAll(".repo");
+    const searchStyle = searchText.toLowerCase();
+
+    for (const repo of repos){
+        const repoLowerCase = repo.innerText.toLowerCase();
+        if (repoLowerCase.includes(searchStyle)){
+            repo.classList.remove("hide");
+        } else {
+            repo.classList.add("hide");
+        }
+    }
 });
 
 
