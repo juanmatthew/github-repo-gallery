@@ -3,6 +3,9 @@ const username = "juanmatthew";
 const repoList = document.querySelector(".repo-list");
 const displayRepoInfo = document.querySelector(".repos");
 const repoData = document.querySelector(".repo-data");
+//create a global variable for back to repo button and the search by name placeholder
+const backToRepoButton = document.querySelector(".view-repos");
+const filterInput = document.querySelector(".filter-repos");
 
 const gitUsers = async function () {
   const userData = await fetch(`https://api.github.com/users/${username}`); 
@@ -70,6 +73,7 @@ const specificRepoInfo = async function (repoName) {
       languages.push(language);
     }
 
+    //console.log(languageData);
     displaySpecificRepoInfo(repoInfo, languages);
 };
 
