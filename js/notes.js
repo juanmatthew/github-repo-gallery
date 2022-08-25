@@ -1,3 +1,5 @@
+//**SOME OF THE VARIABLES HAVE BEEN UPDATED **/
+
 //This div is where your profile information will appear
 const overview = document.querySelector(".overview");
 //GitHub username
@@ -47,7 +49,7 @@ const displayUserInfo = function (userInfo){
     </div>`;
   //Append the div to the overview element.
   overview.append(div);
-  fetchRepos();
+  fetchRepos(username);
 };
 
 //async function to fetch repos
@@ -58,12 +60,12 @@ const fetchRepos = async function () {
     const repoInfo = await gitRepos.json();
 
     //needed to change this from displayspecificrepoinfo to repo details. this made the repos reappear
-    repoDetails(repoData);
+    showRepos(repoData);
 };
 //fetchRepos();
 
 //creating a function to display Info About Your Repos
-const repoDetails = function (repos) {
+const showRepos = function (repos) {
     //the search by name box should be showing
     filterInput.classList.remove("hide")
     //Inside the function, loop and create a list item for each repo and give each item
@@ -87,11 +89,11 @@ repoList.addEventListener("click", function (e) {
         //Log out the variable to the console. Try clicking on a few repo names to see if your event listener is working as expected.
         //console.log(repoName);
         //Return to repoList click event listener. Inside the if statement, replace the console.log() with a call to this async function, passing repoName as an argument
-        specificRepoInfo(repoName);
+        getSpecificRepoInfo(repoName);
     }
 });
 //create and name an async function to get specific repo information
-const specificRepoInfo = async function (repoName) {
+const getSpecificRepoInfo = async function (repoName) {
     //In the function, make a fetch request to grab information about the specific repository.
     const fetchInfo = await fetch(`https://api.github.com/repos/${username}/${repoName}`);
     //Declare a variable called repoInfo to resolve and save the JSON response
