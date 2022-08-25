@@ -4,6 +4,10 @@ const overview = document.querySelector(".overview");
 const username = "juanmatthew";
 //select the unordered list to display the repos list
 const repoList = document.querySelector(".repo-list");
+//selects the section class repos
+const displayRepoInfo = document.querySelector(".repos");
+//selects 
+const repoData = document.querySelector(".repo-data");
 
 //async function to fetch your GitHub user data
 const gitUsers = async function () {
