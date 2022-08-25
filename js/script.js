@@ -66,29 +66,27 @@ const fetchRepos = async function () {
         languages.push(language);
     }
 
-    const displaySpecificRepoInfo = function (repoInfo, languages) {
-        repoData.innerHTML = "";
-        //Create a new div element and add the selected repository’s name, description, default branch, and link to its code on GitHub.The div structure will look like this:
-        const div = document.createElement("div");
-        //Inside the 5 placeholders, use the JSON data to grab the relevant properties to display on the page. Use the properties from the object you retrieved when you fetched the specific repos. Hint: You want the URL to the repo on GitHub, not the repo’s API address.
-        div.innerHTML= `<h3>Name: ${repoInfo.name}</h3>
-        <p>Description: ${repoInfo.description}</p>
-        <p>Default Branch: ${repoInfo.default_branch}</p>
-        <p>Languages: ${languages.join(", ")}</p>
-        <a class="visit" href="${repoInfo.html_url}" target="_blank" rel="noreferrer noopener">View Repo on GitHub!</a>`;
-
-        //Append the new div element to the section with a class of “repo-data”.
-        repoData.append(div);
-        repoData.classList.remove("hide");
-    }
-
-
-
     console.log(repoInfo);
     //calling the function to display repo info and passing the argument of the gitrepos json variable to get the repo data
     repoDetails(repoInfo);
 };
 //fetchRepos();
+
+const displaySpecificRepoInfo = function (repoInfo, languages) {
+    repoData.innerHTML = "";
+    //Create a new div element and add the selected repository’s name, description, default branch, and link to its code on GitHub.The div structure will look like this:
+    const div = document.createElement("div");
+    //Inside the 5 placeholders, use the JSON data to grab the relevant properties to display on the page. Use the properties from the object you retrieved when you fetched the specific repos. Hint: You want the URL to the repo on GitHub, not the repo’s API address.
+    div.innerHTML= `<h3>Name: ${repoInfo.name}</h3>
+    <p>Description: ${repoInfo.description}</p>
+    <p>Default Branch: ${repoInfo.default_branch}</p>
+    <p>Languages: ${languages.join(", ")}</p>
+    <a class="visit" href="${repoInfo.html_url}" target="_blank" rel="noreferrer noopener">View Repo on GitHub!</a>`;
+
+    //Append the new div element to the section with a class of “repo-data”.
+    repoData.append(div);
+    repoData.classList.remove("hide");
+};
 
 //creating a function to display Info About Your Repos
 const repoDetails = function (repos) {
