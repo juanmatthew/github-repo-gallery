@@ -41,16 +41,17 @@ const fetchRepos = async function () {
 };
 //fetchRepos();
 
-//creating a function to display Info About Your Repos
+//creating a function to display your repos
 const repoDetails = function (repos) {
+    //the search by name box should be showing
+    filterInput.classList.remove("hide")
   for (const repo of repos) {
       const listItems = document.createElement("li");
       listItems.classList.add("repo");
       listItems.innerHTML = `<h3>${repo.name}</h3>`;
       repoList.append(listItems);
   }  
-  //Now the user will see the Back to Repo Gallery button when they click on a repo name. When they click on the back button, they’ll return to the complete list of repos. The individual repo information and the back button will then disappear.
-  backToReposButton.classList.remove("hide");
+  
 };
 
 //create a click event listener for the ul class repo-list
@@ -78,8 +79,10 @@ const specificRepoInfo = async function (repoName) {
     //console.log(languageData);
     displaySpecificRepoInfo(repoInfo, languages);
 };
-
+//responsible for displaying the individual repo information
 const displaySpecificRepoInfo = function (repoInfo, languages) {
+    //Now the user will see the Back to Repo Gallery button when they click on a repo name. When they click on the back button, they’ll return to the complete list of repos. The individual repo information and the back button will then disappear.
+    backToReposButton.classList.remove("hide");
     repoData.innerHTML = "";
     repoData.classList.remove("hide");
     displayRepoInfo.classList.add("hide");
