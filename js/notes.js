@@ -52,6 +52,8 @@ const fetchRepos = async function () {
     const gitRepos = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`);
     //Your second await statement should return the JSON response
     const repoInfo = await gitRepos.json();
+
+    //needed to change this from displayspecificrepoinfo to repo details. this made the repos reappear
     repoDetails(repoData);
 };
 //fetchRepos();
@@ -78,23 +80,31 @@ repoList.addEventListener("click", function (e) {
         const repoName = e.target.innerText;
         //Log out the variable to the console. Try clicking on a few repo names to see if your event listener is working as expected.
         //console.log(repoName);
+        //Return to repoList click event listener. Inside the if statement, replace the console.log() with a call to this async function, passing repoName as an argument
         specificRepoInfo(repoName);
     }
 });
-
+//create and name an async function to get specific repo information
 const specificRepoInfo = async function (repoName) {
+    //In the function, make a fetch request to grab information about the specific repository.
     const fetchInfo = await fetch(`https://api.github.com/repos/${username}/${repoName}`);
+    //Declare a variable called repoInfo to resolve and save the JSON response
     const repoInfo = await fetchInfo.json();
     console.log(repoInfo);
     
+    //create a variable called fetchLanguages to fetch data from language_url property of your repoInfo.
     const fetchLanguages = await fetch(repoInfo.language_url);
+    //Create a variable called languageData to save the JSON response.
     const languageData = await fetchLanguages.json();
-  
+    
+    //add each language to an empty array called languages.The languageData is an object.
     const languages = [];
+    //create a loop for the language
     for (const language in languageData) {
+        //You’ll want to add the languages to the end of the array.
       languages.push(language);
     }
-
+    //console.log(repoInfo)
     displaySpecificRepoInfo(repoInfo, languages);
 };
 
