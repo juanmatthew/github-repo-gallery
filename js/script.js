@@ -4,7 +4,7 @@ const repoList = document.querySelector(".repo-list");
 const displayRepoInfo = document.querySelector(".repos");
 const repoData = document.querySelector(".repo-data");
 //create a global variable for back to repo button and the search by name placeholder
-const backToRepoButton = document.querySelector(".view-repos");
+const backToReposButton = document.querySelector(".view-repos");
 const filterInput = document.querySelector(".filter-repos");
 
 const gitUsers = async function () {
@@ -49,6 +49,8 @@ const repoDetails = function (repos) {
       listItems.innerHTML = `<h3>${repo.name}</h3>`;
       repoList.append(listItems);
   }  
+  //Now the user will see the Back to Repo Gallery button when they click on a repo name. When they click on the back button, they’ll return to the complete list of repos. The individual repo information and the back button will then disappear.
+  backToReposButton.classList.remove("hide");
 };
 
 //create a click event listener for the ul class repo-list
@@ -90,7 +92,15 @@ const displaySpecificRepoInfo = function (repoInfo, languages) {
 
     repoData.append(div);
 };
-
+//add a click event to the back to repo button
+backToReposButton.addEventListener("click", function () {
+    //unhide (display) the section with the class of “repos”, the location where all the repo information appears
+    displayRepoInfo.classList.remove("hide");
+    //Add the “hide” class to the section where the individual repo data will appear
+    repoData.classList.add("hide");
+    //Also, add the “hide” class to the Back to Repo Gallery button itself
+    backToReposButton.classList.add("hide");
+});
 
 
 
