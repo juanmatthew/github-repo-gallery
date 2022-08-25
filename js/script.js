@@ -71,3 +71,14 @@ const repoDetails = function (repos) {
       repoList.append(listItems);
   }  
 };
+
+//create a click event listener for the ul class repo-list
+repoList.addEventListener("click", function (e) {
+    //Add a conditional statement to check if the event target (i.e., the element that was clicked on) matches the <h3> element (i.e., the name of the repo)
+    if (e.target.matches("h3")){
+        //create a variable called repoName to target the innerText where the event happens
+        const repoName = e.target.innerText;
+        //Log out the variable to the console. Try clicking on a few repo names to see if your event listener is working as expected.
+        //console.log(repoName);
+    }
+});
