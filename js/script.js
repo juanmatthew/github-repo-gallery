@@ -52,7 +52,21 @@ const fetchRepos = async function () {
     const gitRepos = await fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`);
     //Your second await statement should return the JSON response
     const repoInfo = await gitRepos.json();
-    //console.log(repoInfo);
+
+    //create a variable called fetchLanguages to fetch data from language_url property of your repoInfo
+    const fetchLanguages = await fetch(gitRepos.language_url);
+    //Create a variable called languageData to save the JSON response.
+    const languageData = await fetchLanguages.json();
+    //console.log(languageData);
+
+    //add each language to an empty array called languages
+    const languages = [];
+    //Hint: The languageData is an object. Remember how to loop through an object? You’ll want to add the languages to the end of the array.
+    for (const language in languageData) {
+        languages.push(language);
+    }
+
+    console.log(repoInfo);
     //calling the function to display repo info and passing the argument of the gitrepos json variable to get the repo data
     repoDetails(repoInfo);
 };
